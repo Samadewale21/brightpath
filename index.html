@@ -1,0 +1,753 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Brightpath Tutoring</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Caveat:wght@600&family=Figtree:wght@400;600;700&display=swap">
+<style>*{box-sizing:border-box}[hidden]{display:none!important}img{max-width:100%}body{margin:0}</style>
+</head>
+<body>
+<style>
+/* Layout concept: one long exercise-book page. Squared paper, a red margin line down the left,
+   and the school colours, blue, yellow and white, for every mark, score and call to action. */
+:root{
+  --paper:#FFFFFF;
+  --grid:#E4EDFB;
+  --panel:#FFFFFF;
+  --ink:#0B1B3D;
+  --ink-soft:#44557A;
+  --rule:#C9D6EE;
+  --blue:#0B4BC0;
+  --on-blue:#FFFFFF;
+  --yellow:#FFC81E;
+  --yellow-soft:#FFF4C9;
+  --on-yellow:#0B1B3D;
+  --accent:#0B4BC0;
+  --focus:#0B4BC0;
+  --ok:#17744A;
+  --bad:#B3261E;
+  --font-display:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif;
+  --font-body:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --font-hand:"Caveat","Segoe Print","Bradley Hand",cursive;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0A1630;--grid:#12224A;--panel:#0F2050;--ink:#F2F6FF;--ink-soft:#B0BEDD;--rule:#2D4278;
+    --blue:#2F6DF0;--on-blue:#FFFFFF;--yellow:#FFC81E;--yellow-soft:#2E2B10;--on-yellow:#0B1B3D;
+    --accent:#8DB6FF;--focus:#FFC81E;--ok:#63D6A0;--bad:#FF8A80;color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0A1630;--grid:#12224A;--panel:#0F2050;--ink:#F2F6FF;--ink-soft:#B0BEDD;--rule:#2D4278;
+  --blue:#2F6DF0;--on-blue:#FFFFFF;--yellow:#FFC81E;--yellow-soft:#2E2B10;--on-yellow:#0B1B3D;
+  --accent:#8DB6FF;--focus:#FFC81E;--ok:#63D6A0;--bad:#FF8A80;color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*{transition:none!important}}
+body{
+  font-family:var(--font-body);font-size:16px;line-height:1.6;color:var(--ink);
+  background:var(--paper);
+  padding-inline:0;
+}
+body::before{
+  content:"";position:fixed;top:0;bottom:0;left:max(8px,calc(50% - 560px));width:1px;
+  background:var(--yellow);box-shadow:5px 0 0 0 var(--yellow);pointer-events:none;z-index:0;
+}
+a{color:inherit}
+h1,h2,h3{font-family:var(--font-display);line-height:1.08;text-wrap:balance;margin:0}
+p{margin:0}
+.wrap{width:100%;max-width:1100px;margin-inline:auto;padding-inline:28px 16px;position:relative;z-index:1}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+:focus-visible{outline:3px solid var(--focus);outline-offset:3px;border-radius:4px}
+
+/* header */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--blue);color:var(--on-blue);border-bottom:5px solid var(--yellow)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-block:12px}
+.brand{font-family:var(--font-display);font-weight:800;font-size:1.25rem;text-decoration:none;letter-spacing:-.01em}
+.brand b{color:var(--yellow);font-weight:800}
+.nav{display:flex;gap:6px 18px;flex-wrap:wrap;font-weight:600;font-size:.95rem}
+.nav a{text-decoration:none;padding:4px 0;border-bottom:2px solid transparent}
+.nav a:hover{border-color:var(--yellow)}
+
+/* hero */
+.hero{padding-block:clamp(40px,8vw,88px) 40px}
+.eyebrow{font-weight:700;font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft)}
+.hero h1{font-weight:800;font-size:clamp(2.4rem,7.2vw,4.9rem);letter-spacing:-.025em;margin-top:14px;max-width:15ch}
+.hero h1 mark{background:linear-gradient(transparent 58%,var(--yellow) 58%);color:inherit;white-space:nowrap;padding:0 .06em}
+.hero .lede{font-size:1.15rem;max-width:56ch;margin-top:22px;color:var(--ink-soft)}
+.hero .lede strong{color:var(--ink)}
+.cta-row{display:flex;gap:14px 22px;flex-wrap:wrap;align-items:center;margin-top:30px}
+.btn{font:inherit;font-weight:700;cursor:pointer;border:2px solid var(--ink);background:var(--panel);color:var(--ink);
+  padding:12px 20px;border-radius:6px;text-decoration:none;display:inline-block;line-height:1.2}
+.btn:hover{background:var(--blue);border-color:var(--blue);color:var(--on-blue)}
+.btn.pen{background:var(--yellow);border-color:var(--on-yellow);color:var(--on-yellow)}
+.btn.pen:hover{filter:brightness(.94);background:var(--yellow);border-color:var(--on-yellow);color:var(--on-yellow)}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.link{font-weight:700;text-underline-offset:4px;text-decoration-color:var(--yellow);text-decoration-thickness:3px}
+
+/* level ladder */
+.ladder-wrap{margin-top:52px;max-width:760px}
+.ladder-title{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:10px}
+.ladder-title span:last-child{font-family:var(--font-hand);font-size:1.5rem;color:var(--accent);line-height:1}
+.ladder{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:4px;align-items:end;border-bottom:2px solid var(--ink)}
+.step{display:flex;flex-direction:column;justify-content:flex-end;align-items:stretch;gap:6px;text-align:center;font-size:.72rem;font-weight:700;font-variant-numeric:tabular-nums}
+.step i{display:block;background:var(--blue);border-radius:2px 2px 0 0}
+.step span{padding-bottom:4px;color:var(--ink-soft)}
+.tracks{display:grid;gap:12px;margin-top:16px}
+.track{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:4px;row-gap:3px}
+.track .tl{grid-column:1/-1;font-size:.88rem;font-weight:600}
+.track .tl small{font-weight:400;color:var(--ink-soft)}
+.track .tb{height:8px;background:var(--yellow);box-shadow:0 0 0 2px var(--blue);border-radius:4px}
+
+/* sections */
+section{padding-block:clamp(44px,7vw,80px)}
+section+section{border-top:2px solid var(--ink)}
+.sec-head{max-width:40rem;margin-bottom:34px}
+.sec-head h2{font-weight:800;font-size:clamp(1.8rem,4.6vw,2.9rem);letter-spacing:-.02em;margin-top:10px}
+.sec-head p{margin-top:14px;color:var(--ink-soft);font-size:1.05rem}
+
+.subjects{display:flex;flex-wrap:wrap;gap:8px;list-style:none;padding:0;margin:0 0 44px}
+.subjects li{border:1.5px solid var(--ink);padding:6px 14px;border-radius:999px;font-weight:600;background:var(--panel);font-size:.95rem}
+.subjects li.core{background:var(--blue);border-color:var(--blue);color:var(--on-blue)}
+
+.exams{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:34px 28px}
+.exam{border-top:5px solid var(--blue);padding-top:14px;min-width:0}
+.exam h3{font-size:1.5rem;font-weight:800}
+.exam .when{font-size:.85rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);margin-top:6px}
+.exam p{margin-top:10px;color:var(--ink-soft)}
+.exam ul{margin:12px 0 0;padding-left:18px}
+.exam li{margin-top:4px}
+
+.modes{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:0;border:2px solid var(--ink);background:var(--panel)}
+.mode{padding:26px;min-width:0}
+.mode+.mode{border-top:2px solid var(--ink)}
+@media (min-width:640px){.mode+.mode{border-top:0;border-left:2px solid var(--ink)}}
+.mode h3{font-size:1.6rem;font-weight:800}
+.mode p{margin-top:10px;color:var(--ink-soft)}
+.mode .tag{font-family:var(--font-hand);font-size:1.4rem;color:var(--accent);display:block;margin-top:16px;line-height:1}
+
+/* placement test */
+.test{background:var(--panel);border:2px solid var(--ink);border-top:8px solid var(--yellow);padding:clamp(18px,4vw,34px);min-width:0;scroll-margin-top:84px}
+.test h3{font-size:1.5rem;font-weight:800}
+.field{display:grid;gap:8px;margin-top:22px;border:0;padding:0;min-width:0}
+.field>legend,.field>label.lab{font-weight:700;font-size:.82rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);padding:0}
+input[type=text],input[type=tel],select,textarea{font:inherit;color:var(--ink);background:var(--paper);border:2px solid var(--ink);border-radius:6px;padding:11px 12px;width:100%;min-width:0}
+textarea{resize:vertical;min-height:150px;line-height:1.5}
+.seg,.levels{display:flex;gap:8px;flex-wrap:wrap}
+.chip{position:relative}
+.chip input{position:absolute;opacity:0;inset:0;width:100%;height:100%;margin:0;cursor:pointer}
+.chip span{display:block;border:2px solid var(--ink);border-radius:6px;padding:9px 14px;font-weight:700;background:var(--paper);min-width:3rem;text-align:center;line-height:1.25}
+.chip input:checked+span{background:var(--blue);border-color:var(--blue);color:var(--on-blue)}
+.chip input:focus-visible+span{outline:3px solid var(--focus);outline-offset:3px}
+.meta{margin-top:22px;color:var(--ink-soft);font-size:.92rem}
+.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px;align-items:center}
+.history{margin-top:30px;border-top:2px dashed var(--rule);padding-top:18px}
+.history h4{margin:0 0 8px;font-size:.82rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft)}
+.history ul{list-style:none;padding:0;margin:0;display:grid;gap:4px;font-variant-numeric:tabular-nums}
+.history li{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:.95rem}
+
+.qhead{display:flex;justify-content:space-between;gap:8px 16px;flex-wrap:wrap;font-weight:700;font-variant-numeric:tabular-nums}
+.qhead span:last-child{color:var(--ink-soft)}
+.dots{display:flex;gap:6px;flex-wrap:wrap;list-style:none;padding:0;margin:14px 0 0}
+.dots button{font:inherit;font-size:.8rem;font-weight:700;width:34px;height:34px;border-radius:50%;border:2px solid var(--ink);background:var(--paper);color:var(--ink);cursor:pointer;padding:0;font-variant-numeric:tabular-nums}
+.dots button.done{background:var(--blue);border-color:var(--blue);color:var(--on-blue)}
+.dots button[aria-current=step]{background:var(--yellow);border-color:var(--on-yellow);color:var(--on-yellow)}
+.qbox{border:0;padding:0;margin:26px 0 0;min-width:0}
+.passage{font-family:var(--font-display);font-size:1.1rem;font-weight:500;border-left:6px solid var(--yellow);padding:4px 0 4px 14px;margin-bottom:16px;color:var(--ink)}
+.qtext{font-family:var(--font-display);font-size:clamp(1.2rem,3.4vw,1.6rem);font-weight:800;line-height:1.25;letter-spacing:-.01em;padding:0;margin-bottom:18px;width:100%}
+.opts{display:grid;gap:10px}
+.opt{position:relative;display:flex;gap:14px;align-items:flex-start;border:2px solid var(--ink);border-radius:6px;padding:13px 14px;cursor:pointer;background:var(--paper);min-width:0}
+.opt:hover{background:var(--panel);box-shadow:inset 6px 0 0 var(--yellow)}
+.opt input{position:absolute;opacity:0;inset:0;width:100%;height:100%;margin:0;cursor:pointer}
+.opt .mk{flex:none;width:28px;height:28px;border:2px solid var(--ink);border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:.8rem}
+.opt .tx{min-width:0;overflow-wrap:anywhere;padding-top:2px;font-size:1.05rem}
+.opt:has(input:checked){background:var(--blue);border-color:var(--blue);color:var(--on-blue)}
+.opt:has(input:checked) .mk{border-color:var(--yellow);background:var(--yellow);color:var(--on-yellow)}
+.opt:has(input:focus-visible){outline:3px solid var(--focus);outline-offset:3px}
+.warn{margin-top:18px;border:2px solid var(--ink);background:var(--yellow-soft);padding:12px 14px;font-weight:600;display:flex;gap:12px 16px;flex-wrap:wrap;align-items:center}
+
+.score-row{display:flex;gap:16px 36px;flex-wrap:wrap;align-items:center;margin-top:8px}
+.score{font-family:var(--font-hand);font-size:clamp(5rem,20vw,8rem);line-height:.9;color:var(--accent);background:var(--yellow-soft);transform:rotate(-4deg);display:inline-block;padding:6px 18px;border:4px solid var(--blue);border-radius:50%/60%}
+.score small{font-size:.4em;opacity:.85}
+.verdict h3{font-size:1.6rem;font-weight:800}
+.verdict p{margin-top:8px;color:var(--ink-soft);max-width:44ch}
+.review{list-style:none;padding:0;margin:30px 0 0;display:grid;gap:0;border-top:2px solid var(--ink)}
+.review li{padding:16px 0;border-bottom:1px solid var(--rule);display:grid;grid-template-columns:34px minmax(0,1fr);gap:0 12px}
+.review .res{font-weight:800;font-size:1.3rem;line-height:1.3;color:var(--bad)}
+.review .res.ok{color:var(--ok)}
+.review .rq{font-weight:700;overflow-wrap:anywhere}
+.review .rp{font-style:italic;color:var(--ink-soft);margin-bottom:4px;overflow-wrap:anywhere}
+.review .ra{margin-top:4px;font-size:.95rem;overflow-wrap:anywhere}
+.review .ra b{font-weight:700}
+
+.sendbox{margin-top:30px;border:2px solid var(--ink);padding:clamp(14px,3vw,22px);background:var(--paper);min-width:0}
+.sendbox h4{margin:0;font-family:var(--font-display);font-size:1.25rem;font-weight:800}
+.sendbox textarea{min-height:190px;font-size:.92rem}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0 18px}
+
+/* enquiry */
+.enq{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:28px 40px;align-items:start}
+.checks{display:flex;flex-wrap:wrap;gap:8px}
+.status{min-height:1.5em;font-weight:600;color:var(--ok);margin-top:10px}
+.contact-lines{margin-top:22px;display:grid;gap:6px;font-weight:600}
+footer{background:var(--blue);color:var(--on-blue);border-top:5px solid var(--yellow);padding-block:28px 40px;font-size:.9rem}
+footer .wrap{display:flex;justify-content:space-between;gap:10px 24px;flex-wrap:wrap}
+
+@media (max-width:520px){
+  .step{font-size:.62rem}
+  .btn{padding:12px 16px}
+}
+
+/* zoom classes */
+input[type=date],input[type=time],input[type=url]{font:inherit;color:var(--ink);background:var(--paper);border:2px solid var(--ink);border-radius:6px;padding:11px 12px;width:100%;min-width:0}
+.zlist{list-style:none;padding:0;margin:0;display:grid;gap:10px}
+.zlist li{display:flex;justify-content:space-between;align-items:center;gap:10px 16px;flex-wrap:wrap;border:2px solid var(--ink);padding:12px 14px;background:var(--paper)}
+.zlist .zt{font-weight:700}.zlist .zw{color:var(--ink-soft);font-size:.92rem}
+.zlist .za{display:flex;gap:8px;flex-wrap:wrap}.zlist .btn{padding:6px 12px;font-size:.9rem}
+</style>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#top" id="brandLink"></a>
+    <nav class="nav" aria-label="Sections">
+      <a href="#programmes">Programmes</a>
+      <a href="#lessons">Online &amp; in person</a>
+      <a href="#zoom">Zoom classes</a>
+      <a href="#test">Placement test</a>
+      <a href="#enquire">Enquire</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <div class="wrap hero">
+    <p class="eyebrow">Tutoring · Online and in person · Grade 3 to Year 12</p>
+    <h1>Every subject, <mark>every grade</mark> from 3 to Year 12.</h1>
+    <p class="lede">Lessons in all school subjects, plus focused preparation for the <strong>SAT</strong>, <strong>Cambridge Checkpoint</strong> and <strong>IGCSE</strong>. Learn at our centre or from home, then find out exactly where you stand with a free ten-question test.</p>
+    <div class="cta-row">
+      <a class="btn pen" href="#test">Take the free placement test</a>
+      <a class="link" href="#programmes">See what we teach</a>
+    </div>
+
+    <div class="ladder-wrap">
+      <div class="ladder-title">
+        <span class="eyebrow">Where the exams sit</span>
+        <span>climb one step at a time</span>
+      </div>
+      <div class="ladder" id="ladder" aria-hidden="true"></div>
+      <div class="tracks" id="tracks"></div>
+    </div>
+  </div>
+
+  <section id="programmes">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Programmes</p>
+        <h2>The whole timetable, plus the exams that matter.</h2>
+        <p>Pick a single subject or build a full week. Maths and English are the foundation for every level, so they come first.</p>
+      </div>
+      <ul class="subjects" aria-label="Subjects we teach">
+        <li class="core">Mathematics</li><li class="core">English Language</li>
+        <li>English Literature</li><li>Biology</li><li>Chemistry</li><li>Physics</li>
+        <li>Basic Science</li><li>Computer Science &amp; ICT</li><li>Geography</li><li>History</li>
+        <li>Economics</li><li>Business Studies</li><li>Accounting</li><li>French</li><li>Social Studies</li>
+      </ul>
+      <div class="exams">
+        <article class="exam">
+          <h3>SAT</h3>
+          <p class="when">Senior years</p>
+          <p>For students aiming at university places abroad. We work on the two sections of the digital SAT, Reading &amp; Writing and Math, and on the timing that decides the score.</p>
+          <ul><li>Timed practice sections</li><li>Error analysis after each test</li><li>Score target from 400 to 1600</li></ul>
+        </article>
+        <article class="exam">
+          <h3>Cambridge Checkpoint</h3>
+          <p class="when">End of primary · end of lower secondary</p>
+          <p>Checkpoint shows a school and a family where a child stands before the next stage. We cover English, Maths and Science to the Checkpoint standard.</p>
+          <ul><li>Primary Checkpoint practice</li><li>Lower Secondary Checkpoint practice</li><li>Gaps fixed before IGCSE starts</li></ul>
+        </article>
+        <article class="exam">
+          <h3>IGCSE</h3>
+          <p class="when">Final two years of secondary</p>
+          <p>Subject-by-subject teaching for Cambridge IGCSE courses, built around past papers, mark schemes and the way examiners award marks.</p>
+          <ul><li>Past-paper practice by topic</li><li>Mark-scheme technique</li><li>Revision plans before the exam season</li></ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="lessons">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Online &amp; in person</p>
+        <h2>Learn where it suits your family.</h2>
+        <p>The syllabus is the same either way. Choose the format that fits your week.</p>
+      </div>
+      <div class="modes">
+        <div class="mode">
+          <h3>Online</h3>
+          <p>Live lessons by video from home, on any device with a camera and a steady connection. Good for busy schedules and for families who live far from the centre.</p>
+          <span class="tag">no travel, same tutor</span>
+        </div>
+        <div class="mode">
+          <h3>In person</h3>
+          <p>Face-to-face lessons at the centre, with a tutor who can see the page your child is working on and step in at once.</p>
+          <span class="tag">paper, pencil, real talk</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="zoom">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Tutor tools</p>
+        <h2>Set up a Zoom class.</h2>
+        <p>Create the meeting on Zoom, paste the join link here, and send the invite to your students in one go.</p>
+      </div>
+      <div class="test">
+        <h3>Schedule a class</h3>
+        <div class="two">
+          <div class="field"><label class="lab" for="zTitle">Class title</label><input type="text" id="zTitle" placeholder="e.g. Grade 8 Maths: Algebra"></div>
+          <div class="field"><label class="lab" for="zSubject">Subject</label><select id="zSubject"></select></div>
+          <div class="field"><label class="lab" for="zLevel">Level</label><select id="zLevel"></select></div>
+          <div class="field"><label class="lab" for="zDur">Length</label><select id="zDur"></select></div>
+          <div class="field"><label class="lab" for="zDate">Date</label><input type="date" id="zDate"></div>
+          <div class="field"><label class="lab" for="zTime">Start time</label><input type="time" id="zTime"></div>
+        </div>
+        <div class="actions">
+          <a class="btn pen" href="https://zoom.us/meeting/schedule" target="_blank" rel="noopener">1. Create meeting on Zoom</a>
+          <a class="btn" href="https://zoom.us/start/videomeeting" target="_blank" rel="noopener">Start an instant meeting</a>
+        </div>
+        <div class="field"><label class="lab" for="zLink">2. Paste the Zoom join link</label><input type="url" id="zLink" placeholder="https://zoom.us/j/1234567890?pwd=..."></div>
+        <div class="field"><label class="lab" for="zMsg">3. Invite message</label><textarea id="zMsg"></textarea></div>
+        <div class="actions">
+          <button class="btn pen" type="button" id="zSave">Save class</button>
+          <a class="btn" id="zMail" href="#">Email invite</a>
+          <a class="btn" id="zWa" href="#" target="_blank" rel="noopener">WhatsApp</a>
+          <a class="btn" id="zCal" href="#" target="_blank" rel="noopener">Add to Google Calendar</a>
+          <button class="btn" type="button" id="zCopy">Copy invite</button>
+        </div>
+        <p class="status" id="zStatus" role="status"></p>
+        <div class="history"><h4>Upcoming classes on this device</h4><ul class="zlist" id="zList"></ul></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="placement">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Placement test</p>
+        <h2>Ten questions. Your result straight away.</h2>
+        <p>Choose Maths or English and a level from Grade 3 to Year 12. Each test has ten multiple-choice questions and no timer. When you finish, you see your mark and the right answer to every question.</p>
+      </div>
+      <div class="test" id="test">
+        <div id="testRoot" aria-live="polite"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="enquire">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Enquire</p>
+        <h2>Tell us who is learning.</h2>
+        <p>Fill this in, then open the message in your email app or copy it. It carries your placement result if you took the test.</p>
+      </div>
+      <form class="enq" id="enqForm" autocomplete="off">
+        <div>
+          <div class="field">
+            <label class="lab" for="eName">Student's name</label>
+            <input type="text" id="eName">
+          </div>
+          <div class="field">
+            <label class="lab" for="ePhone">Contact number</label>
+            <input type="tel" id="ePhone" inputmode="tel">
+          </div>
+          <div class="field">
+            <label class="lab" for="eGrade">Grade or year</label>
+            <select id="eGrade"></select>
+          </div>
+          <fieldset class="field">
+            <legend>What do you need help with?</legend>
+            <div class="checks" id="eSubjects"></div>
+          </fieldset>
+          <div class="field">
+            <label class="lab" for="eMode">Lesson format</label>
+            <select id="eMode">
+              <option>Online</option><option>In person</option><option>Either, I'd like advice</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <div class="field" style="margin-top:0">
+            <label class="lab" for="eMsg">Your message</label>
+            <textarea id="eMsg"></textarea>
+          </div>
+          <div class="actions">
+            <a class="btn pen" id="mailBtn" href="#">Open in my email app</a>
+            <button class="btn" type="button" id="copyBtn">Copy message</button>
+            <a class="btn" id="waBtn" href="#" target="_blank" rel="noopener" hidden>Send on WhatsApp</a>
+          </div>
+          <p class="status" id="copyStatus" role="status"></p>
+          <div class="contact-lines" id="contactLines"></div>
+        </div>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span id="footName"></span>
+    <span>Tutoring for Grade 3 to Year 12 · SAT · Cambridge Checkpoint · IGCSE</span>
+  </div>
+</footer>
+
+<script>
+const CENTRE = { name: "Brightpath Tutoring", whatsapp: "", email: "technogiescentagon@gmail.com" };
+const BANK = {"maths":{"3":[{"q":"48 + 27 = ?","p":null,"o":["75","65","85","74"],"a":0},{"q":"6 × 7 = ?","p":null,"o":["49","48","36","42"],"a":3},{"q":"81 ÷ 9 = ?","p":null,"o":["10","9","7","8"],"a":1},{"q":"There are 5 packs of pencils with 8 pencils in each pack. How many pencils are there altogether?","p":null,"o":["40","35","45","13"],"a":0},{"q":"Which number is the greatest?","p":null,"o":["456","546","465","564"],"a":3},{"q":"100 − 36 = ?","p":null,"o":["64","54","66","74"],"a":0},{"q":"A pizza is cut into 4 equal slices. You eat 1 slice. What fraction of the pizza did you eat?","p":null,"o":["1/2","1/3","1/4","4/1"],"a":2},{"q":"A square has sides of 5 cm. What is its perimeter in cm?","p":null,"o":["10","15","25","20"],"a":3},{"q":"What comes next? 5, 10, 15, 20, __","p":null,"o":["24","35","25","30"],"a":2},{"q":"3 hundreds + 4 tens + 2 ones = ?","p":null,"o":["324","342","3,042","432"],"a":1}],"4":[{"q":"3,420 + 2,185 = ?","p":null,"o":["6,605","5,505","5,605","5,615"],"a":2},{"q":"12 × 11 = ?","p":null,"o":["142","122","132","121"],"a":2},{"q":"144 ÷ 12 = ?","p":null,"o":["12","11","14","13"],"a":0},{"q":"Round 4,872 to the nearest hundred.","p":null,"o":["5,000","4,870","4,900","4,800"],"a":2},{"q":"3/8 + 2/8 = ?","p":null,"o":["5/8","1/8","6/16","5/16"],"a":0},{"q":"A rectangle is 9 m long and 6 m wide. What is its area in m²?","p":null,"o":["45","15","54","30"],"a":2},{"q":"Which fraction is equal to 0.5?","p":null,"o":["1/4","5/100","1/5","1/2"],"a":3},{"q":"A shop had 250 apples and sold 78. How many apples are left?","p":null,"o":["182","328","172","162"],"a":2},{"q":"Which of these numbers is a multiple of 7?","p":null,"o":["52","35","45","27"],"a":1},{"q":"An angle of exactly 90° is called a…","p":null,"o":["straight angle","obtuse angle","right angle","acute angle"],"a":2}],"5":[{"q":"23 × 14 = ?","p":null,"o":["332","312","282","322"],"a":3},{"q":"2,016 ÷ 8 = ?","p":null,"o":["248","242","252","262"],"a":2},{"q":"3/4 + 1/8 = ?","p":null,"o":["4/12","4/8","5/8","7/8"],"a":3},{"q":"0.6 + 0.45 = ?","p":null,"o":["1.15","1.05","1.5","0.51"],"a":1},{"q":"What is 25% of 80?","p":null,"o":["8","20","40","25"],"a":1},{"q":"What is the volume of a cube with sides of 3 cm, in cm³?","p":null,"o":["27","12","9","18"],"a":0},{"q":"What is the smallest prime number greater than 10?","p":null,"o":["13","15","11","12"],"a":2},{"q":"What is the mean of 4, 8, 12 and 16?","p":null,"o":["10","12","40","8"],"a":0},{"q":"In the number 3.254, what is the value of the digit 5?","p":null,"o":["5 thousandths","5 hundredths","5 tenths","5 ones"],"a":1},{"q":"A train leaves at 09:45. The journey takes 2 hours 50 minutes. What time does it arrive?","p":null,"o":["12:45","12:35","12:25","13:35"],"a":1}],"6":[{"q":"What is 3/5 of 10?","p":null,"o":["8","15","6","5"],"a":2},{"q":"Write the ratio 12 : 18 in its simplest form.","p":null,"o":["3 : 2","4 : 6","6 : 9","2 : 3"],"a":3},{"q":"5 − 9 = ?","p":null,"o":["4","14","−4","−14"],"a":2},{"q":"What is 15% of 240?","p":null,"o":["30","36","24","3.6"],"a":1},{"q":"Solve: x + 7 = 19","p":null,"o":["x = 11","x = 26","x = 13","x = 12"],"a":3},{"q":"A triangle has a base of 10 cm and a height of 6 cm. What is its area in cm²?","p":null,"o":["60","15","16","30"],"a":3},{"q":"What is the lowest common multiple (LCM) of 4 and 6?","p":null,"o":["24","12","10","2"],"a":1},{"q":"0.35 × 20 = ?","p":null,"o":["70","3.5","7","0.7"],"a":2},{"q":"What is the mean of 6, 7, 7, 9 and 11?","p":null,"o":["9","8","40","7"],"a":1},{"q":"Two angles of a triangle are 55° and 65°. What is the third angle?","p":null,"o":["70°","60°","50°","120°"],"a":1}],"7":[{"q":"Simplify: 3x + 5x","p":null,"o":["8x²","8x","8","15x"],"a":1},{"q":"−6 × −4 = ?","p":null,"o":["−10","24","10","−24"],"a":1},{"q":"Solve: 2x − 5 = 11","p":null,"o":["x = 8","x = 6","x = 3","x = 16"],"a":0},{"q":"Increase 60 by 20%.","p":null,"o":["72","12","62","80"],"a":0},{"q":"A circle has radius 7 cm. Using π = 22/7, what is its circumference in cm?","p":null,"o":["14","22","44","154"],"a":2},{"q":"Which list is in order from smallest to largest?","p":null,"o":["1/3, 40%, 0.45, 0.5","0.5, 0.45, 40%, 1/3","40%, 1/3, 0.5, 0.45","1/3, 0.45, 40%, 0.5"],"a":0},{"q":"What is the sum of the interior angles of any quadrilateral?","p":null,"o":["180°","360°","270°","540°"],"a":1},{"q":"Write 3.4 × 10³ as an ordinary number.","p":null,"o":["3,400","34,000","0.0034","340"],"a":0},{"q":"A fair six-sided dice is rolled. What is the probability of getting a number greater than 4?","p":null,"o":["1/6","1/3","1/2","2/3"],"a":1},{"q":"Expand: 3(x + 4)","p":null,"o":["3x + 7","x + 12","3x + 12","3x + 4"],"a":2}],"8":[{"q":"Solve: 5x + 3 = 2x + 18","p":null,"o":["x = 5","x = 15","x = 7","x = 3"],"a":0},{"q":"Expand and simplify: (x + 2)(x + 3)","p":null,"o":["x² + 5x + 5","x² + 6","2x + 5","x² + 5x + 6"],"a":3},{"q":"What is the gradient of the line through (1, 2) and (3, 8)?","p":null,"o":["1/3","6","3","2"],"a":2},{"q":"A right-angled triangle has shorter sides of 6 cm and 8 cm. How long is the hypotenuse in cm?","p":null,"o":["10","14","12","100"],"a":0},{"q":"Simplify: 2³ × 2⁴","p":null,"o":["2⁸","2¹²","4⁷","2⁷"],"a":3},{"q":"The mean of five numbers is 12. Four of them are 10, 11, 13 and 14. What is the fifth number?","p":null,"o":["10","12","14","13"],"a":1},{"q":"Solve: 3x − 4 > 11","p":null,"o":["x < 5","x > 7/3","x > 15","x > 5"],"a":3},{"q":"What is the area of a circle with radius 5 cm, in terms of π?","p":null,"o":["10π cm²","25π cm²","5π cm²","50π cm²"],"a":1},{"q":"Share £240 in the ratio 3 : 5. How much is the larger share in £?","p":null,"o":["150","120","160","90"],"a":0},{"q":"What is √81 + ∛27?","p":null,"o":["30","12","10","36"],"a":1}],"9":[{"q":"Solve: x² − 9 = 0","p":null,"o":["x = ±3","x = 9","x = 3","x = ±9"],"a":0},{"q":"Factorise: x² + 7x + 12","p":null,"o":["(x + 3)(x + 4)","(x + 2)(x + 6)","(x − 3)(x − 4)","(x + 1)(x + 12)"],"a":0},{"q":"x + y = 10 and x − y = 4. Find x and y.","p":null,"o":["x = 3, y = 7","x = 7, y = 3","x = 6, y = 4","x = 8, y = 2"],"a":1},{"q":"Write 0.00042 in standard form.","p":null,"o":["4.2 × 10⁻⁵","4.2 × 10⁻³","4.2 × 10⁴","4.2 × 10⁻⁴"],"a":3},{"q":"Simplify: (3x²y)(4xy³)","p":null,"o":["12x³y³","7x³y⁴","12x³y⁴","12x²y³"],"a":2},{"q":"A cylinder has radius 3 cm and height 10 cm. What is its volume?","p":null,"o":["90π cm³","60π cm³","900π cm³","30π cm³"],"a":0},{"q":"In a right-angled triangle the side opposite angle θ is 5 and the hypotenuse is 13. What is sin θ?","p":null,"o":["13/5","12/13","5/13","5/12"],"a":2},{"q":"Expand: (x − 4)²","p":null,"o":["x² − 8x + 16","x² − 16","x² + 16","x² − 8x − 16"],"a":0},{"q":"What is the median of 3, 9, 4, 7, 12, 5?","p":null,"o":["7","6","5","6.67"],"a":1},{"q":"Simplify: √50","p":null,"o":["25√2","2√5","10√5","5√2"],"a":3}],"10":[{"q":"Solve: 2x² + 5x − 3 = 0","p":null,"o":["x = ½ or x = −3","x = 1 or x = −3","x = −½ or x = 3","x = 3/2 or x = −1"],"a":0},{"q":"Make x the subject: y = 3x − 5","p":null,"o":["x = (y − 5)/3","x = 3y + 5","x = (y + 5)/3","x = (y + 5) − 3"],"a":2},{"q":"f(x) = x² − 3x. Find f(−2).","p":null,"o":["10","−2","−10","2"],"a":0},{"q":"What is the nth term of the sequence 7, 11, 15, 19, …?","p":null,"o":["3n + 4","7n − 3","4n + 3","4n + 7"],"a":2},{"q":"£2,000 is invested at 5% compound interest per year. What is it worth after 3 years, in £?","p":null,"o":["2,250.00","2,315.00","2,300.00","2,315.25"],"a":3},{"q":"A right-angled triangle has a hypotenuse of 12 cm and an angle of 30°. How long is the side opposite the 30° angle, in cm?","p":null,"o":["12","6","6√3","4"],"a":1},{"q":"A bag has 3 red and 5 blue counters. Two are taken without replacement. What is the probability that both are red?","p":null,"o":["9/64","3/28","1/4","3/8"],"a":1},{"q":"What is the gradient of a line perpendicular to y = 2x + 1?","p":null,"o":["−2","2","−½","½"],"a":2},{"q":"Simplify: (x² − 16)/(x − 4)","p":null,"o":["x − 4","x + 16","x² + 4","x + 4"],"a":3},{"q":"Solve: 2ˣ = 32","p":null,"o":["x = 6","x = 4","x = 5","x = 16"],"a":2}],"11":[{"q":"What is log₂ 64?","p":null,"o":["6","8","5","32"],"a":0},{"q":"Differentiate y = 3x⁴","p":null,"o":["4x³","3x³","12x⁴","12x³"],"a":3},{"q":"What is the discriminant of x² − 6x + 9?","p":null,"o":["0","−72","72","36"],"a":0},{"q":"What is the sum of the first 10 terms of an arithmetic series with a = 2 and d = 3?","p":null,"o":["165","145","155","150"],"a":2},{"q":"Solve sin x = 0.5 for 0° ≤ x ≤ 180°.","p":null,"o":["60° and 120°","30° and 330°","30° and 150°","30° only"],"a":2},{"q":"What is the gradient of y = x² − 4x at x = 3?","p":null,"o":["−3","2","6","5"],"a":1},{"q":"Integrate: ∫ 6x² dx","p":null,"o":["2x³ + c","12x + c","3x³ + c","6x³ + c"],"a":0},{"q":"a = (2, 3) and b = (−1, 4). Find a + b.","p":null,"o":["(1, 1)","(1, 7)","(3, −1)","(−2, 12)"],"a":1},{"q":"What is the exact value of sin 60°?","p":null,"o":["√2/2","1/2","√3/2","√3"],"a":2},{"q":"Solve: |2x − 3| = 7","p":null,"o":["x = 5 or x = −2","x = 2 or x = −5","x = 5 only","x = 5 or x = 2"],"a":0}],"12":[{"q":"3x + 2y = 12 and x = 2. What is y?","p":null,"o":["3","2","6","4"],"a":0},{"q":"Differentiate y = e²ˣ","p":null,"o":["2xe²ˣ","2e²ˣ","e²","e²ˣ"],"a":1},{"q":"Evaluate: ∫₀² 3x² dx","p":null,"o":["6","12","4","8"],"a":3},{"q":"The quadratic x² − 5x + 6 = 0 has roots that…","p":null,"o":["sum to 5 and multiply to −6","sum to 5 and multiply to 6","sum to −5 and multiply to 6","sum to 6 and multiply to 5"],"a":1},{"q":"What is the sum to infinity of a geometric series with a = 8 and r = 1/2?","p":null,"o":["16","32","12","8"],"a":0},{"q":"A line passes through (0, −3) and (4, 5). What is its equation?","p":null,"o":["y = 2x + 3","y = 2x − 3","y = x − 3","y = 4x − 3"],"a":1},{"q":"A population of 500 doubles every 3 hours. How large is it after 12 hours?","p":null,"o":["8,000","2,000","16,000","6,000"],"a":0},{"q":"What is the coefficient of x² in the expansion of (1 + 2x)⁵?","p":null,"o":["80","20","10","40"],"a":3},{"q":"f(x) = x³ − 3x. How many stationary points does the graph have?","p":null,"o":["1","2","3","0"],"a":1},{"q":"(3 + 2i)(3 − 2i) = ?","p":null,"o":["13","9 + 4i","9 − 4i","5"],"a":0}]},"english":{"3":[{"q":"Which word is a noun?","p":null,"o":["quickly","table","run","happy"],"a":1},{"q":"Which sentence is correct?","p":null,"o":["She goes to school.","She go to school.","She going school.","She gone to school."],"a":0},{"q":"What is the opposite of 'hot'?","p":null,"o":["cold","sunny","warm","big"],"a":0},{"q":"What is the plural of 'box'?","p":null,"o":["boxs","boxen","boxes","box's"],"a":2},{"q":"Which word is spelled correctly?","p":null,"o":["friend","firend","frend","freind"],"a":0},{"q":"Which word tells us HOW the dog barked?","p":"The dog barked loudly.","o":["dog","barked","The","loudly"],"a":3},{"q":"Choose the right mark to end this sentence: What is your name","p":null,"o":["!","?",".",","],"a":1},{"q":"What colour is Tom's kite?","p":"Tom has a red kite. He flies it in the park on windy days.","o":["yellow","red","green","blue"],"a":1},{"q":"Which word rhymes with 'cat'?","p":null,"o":["hat","cup","cot","cut"],"a":0},{"q":"What is the past tense of 'jump'?","p":null,"o":["jumpt","jumped","jumping","jumps"],"a":1}],"4":[{"q":"Which word is the adjective?","p":"The tall girl smiled.","o":["girl","smiled","tall","The"],"a":2},{"q":"Choose the correct word: I can ___ the birds singing.","p":null,"o":["heer","hear","hare","here"],"a":1},{"q":"Which word means almost the same as 'big'?","p":null,"o":["slow","large","tiny","thin"],"a":1},{"q":"Which is a complete sentence?","p":null,"o":["Because it was late.","In the big red house.","Running down the hill.","The boy ran down the hill."],"a":3},{"q":"What is the past tense of 'swim'?","p":null,"o":["swum","swimmed","swimming","swam"],"a":3},{"q":"What happened after two weeks?","p":"Mia planted a seed and watered it every day. After two weeks a small green shoot appeared.","o":["The seed disappeared.","A small shoot appeared.","Mia stopped watering.","It began to rain."],"a":1},{"q":"Which phrase correctly shows that the bone belongs to ONE dog?","p":null,"o":["the dogs bone's","the dog bone","the dog's bone","the dogs' bone"],"a":2},{"q":"Which word is a verb?","p":null,"o":["whisper","beautiful","gently","mountain"],"a":0},{"q":"What does the word 'unhappy' mean?","p":null,"o":["happy again","a little happy","very happy","not happy"],"a":3},{"q":"Which sentence uses capital letters correctly?","p":null,"o":["we visited Lagos in December.","We visited Lagos in December.","We visited lagos in December.","We Visited Lagos in december."],"a":1}],"5":[{"q":"Which word is the adverb?","p":"She sang beautifully.","o":["She","sang","beautifully","There is no adverb"],"a":2},{"q":"Choose the correct word: ___ going to the market after school.","p":null,"o":["There","Their","Thier","They're"],"a":3},{"q":"'As brave as a lion' is an example of…","p":null,"o":["alliteration","a metaphor","a simile","onomatopoeia"],"a":2},{"q":"What was the weather probably like?","p":"Ada grabbed her umbrella and put on her raincoat before leaving home.","o":["Snowy","Rainy","Hot and dry","Sunny"],"a":1},{"q":"Neither of the boys ___ ready.","p":null,"o":["are","been","were","was"],"a":3},{"q":"I wanted to play outside, ___ it was raining.","p":null,"o":["but","and","so","or"],"a":0},{"q":"What is the opposite of 'ancient'?","p":null,"o":["wise","historic","old","modern"],"a":3},{"q":"Which sentence is in the passive voice?","p":null,"o":["The cat is chasing the mouse.","The mouse runs away.","The cat chased the mouse.","The mouse was chased by the cat."],"a":3},{"q":"Which word is spelled correctly?","p":null,"o":["necessary","neccessary","neccesary","necesary"],"a":0},{"q":"Which sentence contains alliteration?","p":null,"o":["The wind was cold and strong.","Boom went the drum.","The wind whispered through the willows.","She is as light as a feather."],"a":2}],"6":[{"q":"What is the subject of this sentence?","p":"After the storm, the villagers rebuilt their homes.","o":["the villagers","rebuilt","the storm","their homes"],"a":0},{"q":"Which sentence uses commas correctly?","p":null,"o":["When we arrived the show, had started.","When we arrived the show had, started.","When we arrived, the show had started.","When, we arrived the show had started."],"a":2},{"q":"What does 'reluctant' mean?","p":null,"o":["unwilling","angry","tired","eager"],"a":0},{"q":"Which sentence contains a metaphor?","p":null,"o":["The classroom was as noisy as a zoo.","He ran like the wind.","The classroom was a zoo.","The classroom was very loud."],"a":2},{"q":"Which word best describes the lighthouse?","p":"The old lighthouse had stood on the cliff for two hundred years, guiding ships safely home through fog and storm.","o":["fragile","noisy","dependable","new"],"a":2},{"q":"She is the ___ student in the class.","p":null,"o":["tallest","more tallest","taller","most tall"],"a":0},{"q":"Which sentence is punctuated correctly?","p":null,"o":["“I'm hungry” said, Tunde.","“I'm hungry,” said Tunde.","“I'm hungry. said Tunde.”","“I'm hungry, said Tunde."],"a":1},{"q":"What type of word is 'quickly'?","p":"He ran quickly home.","o":["adjective","noun","pronoun","adverb"],"a":3},{"q":"Which suffix turns 'care' into a word meaning 'without care'?","p":null,"o":["-ness","-ful","-less","-ly"],"a":2},{"q":"What does the idiom 'it's raining cats and dogs' mean?","p":null,"o":["It is a light drizzle.","Animals are falling from the sky.","It is raining very heavily.","It has just stopped raining."],"a":2}],"7":[{"q":"Which part is the relative clause?","p":"The book that I borrowed was excellent.","o":["The book","that I borrowed","was excellent","The book that"],"a":1},{"q":"Each of the players ___ a medal.","p":null,"o":["have received","receives","receive","were receiving"],"a":1},{"q":"Which word is closest in meaning to 'scarce'?","p":null,"o":["careful","rare","heavy","plentiful"],"a":1},{"q":"This is an example of…","p":"The wind howled angrily at the windows.","o":["a simile","personification","hyperbole","alliteration"],"a":1},{"q":"What is Kemi most likely feeling?","p":"Kemi stared at the blank page, tapping her pencil. An hour passed, and the page was still empty.","o":["Sleepy","Proud","Stuck for ideas","Excited"],"a":2},{"q":"Which sentence uses a semicolon correctly?","p":null,"o":["I like tea; and she prefers coffee.","I; like tea she prefers coffee.","I like tea; she prefers coffee.","I like; tea she prefers coffee."],"a":2},{"q":"Which sentence is the most formal?","p":null,"o":["Reply ASAP please!!","Hit me up when you can.","Write back quick, ok?","I would be grateful if you could reply soon."],"a":3},{"q":"Choose the correct word: The cat licked ___ paws.","p":null,"o":["it is","its","its'","it's"],"a":1},{"q":"What is the job of a topic sentence in a paragraph?","p":null,"o":["To end the essay","To list every fact","To ask the reader a question","To introduce the main idea"],"a":3},{"q":"'I've told you a million times' is an example of…","p":null,"o":["irony","onomatopoeia","a simile","hyperbole"],"a":3}],"8":[{"q":"Which is a complex sentence?","p":null,"o":["Although it was late, Ada kept reading.","Ada kept reading.","Ada read and Bola slept.","Ada read a book."],"a":0},{"q":"What does 'ubiquitous' mean?","p":null,"o":["found everywhere","very rare","hard to see","extremely old"],"a":0},{"q":"What is the tone of this sentence?","p":"The ruins stood silent, a grim reminder of what had been lost.","o":["sombre","cheerful","humorous","excited"],"a":0},{"q":"Which sentence uses 'whom' correctly?","p":null,"o":["To whom did you give the book?","Whom gave you the book?","Whom is at the door?","I know whom you are."],"a":0},{"q":"'Who wouldn't want a longer weekend?' is an example of…","p":null,"o":["an oxymoron","alliteration","a simile","a rhetorical question"],"a":3},{"q":"What does 'steadfast' mean?","p":"Despite the criticism, the architect remained steadfast in his vision.","o":["embarrassed","firmly committed","curious","wavering"],"a":1},{"q":"The committee ___ made its decision.","p":null,"o":["have","has","are","were"],"a":1},{"q":"Which pair of words are homophones?","p":null,"o":["quiet / quite","principal / principle","advice / advise","thorough / through"],"a":1},{"q":"Which of these is a sentence fragment?","p":null,"o":["Is the bell ringing?","Whenever the bell rings.","She ran home.","The bell rings."],"a":1},{"q":"Which word has the most negative connotation?","p":null,"o":["firm","determined","persistent","stubborn"],"a":3}],"9":[{"q":"Which sentence uses a colon correctly?","p":null,"o":["You will: need three things a pen, a ruler and a calculator.","You will need three: things a pen, a ruler and a calculator.","You will need: three things, a pen a ruler and a calculator.","You will need three things: a pen, a ruler and a calculator."],"a":3},{"q":"'Deafening silence' is an example of…","p":null,"o":["alliteration","onomatopoeia","a simile","an oxymoron"],"a":3},{"q":"What does 'benevolent' mean?","p":null,"o":["kind and generous","weak and tired","clever and sly","angry and bitter"],"a":0},{"q":"What does this suggest about the speech?","p":"The mayor's speech was long on promises and short on detail.","o":["It was very detailed.","It was angry.","It was vague.","It was too short."],"a":2},{"q":"Which sentence is the active-voice version of 'The thief was caught by the police'?","p":null,"o":["The police were catching by the thief.","The thief caught the police.","The thief was caught.","The police caught the thief."],"a":3},{"q":"Which sentence has parallel structure?","p":null,"o":["She likes swimming, reading and cooking.","She likes to swim, reading and cooking.","She likes swim, read and cooking.","She likes swimming, reading and to cook."],"a":0},{"q":"A fire station burns down. This is an example of…","p":null,"o":["situational irony","a simile","alliteration","hyperbole"],"a":0},{"q":"What does the prefix 'mis-' mean in 'misinterpret'?","p":null,"o":["not","before","wrongly","again"],"a":2},{"q":"Choose the correct form: If I ___ you, I would apologise.","p":null,"o":["am","were","was","be"],"a":1},{"q":"A text begins, 'Buy now and save 50%!' What is the author's main purpose?","p":null,"o":["To entertain","To describe","To inform","To persuade"],"a":3}],"10":[{"q":"What does the word 'swarmed' suggest?","p":"Crowds swarmed the gates.","o":["Chaotic, insect-like movement","Slow, sleepy movement","Calm, orderly movement","Silent movement"],"a":0},{"q":"What does 'ambivalent' mean?","p":null,"o":["very angry","extremely happy","having mixed feelings","completely certain"],"a":2},{"q":"'Life is a rollercoaster.' This is an example of…","p":null,"o":["a metaphor","alliteration","a simile","onomatopoeia"],"a":0},{"q":"When summarising a text, you should…","p":null,"o":["copy long phrases from the text","add your own opinions","use your own words and include only the key points","include every example"],"a":2},{"q":"A formal letter begins 'Dear Mr Adeyemi'. How should it end?","p":null,"o":["See you!","Yours faithfully","Yours sincerely","Best wishes"],"a":2},{"q":"Which sentence is punctuated correctly?","p":null,"o":["The report, which was published last week, caused controversy.","The report which, was published last week caused controversy.","The report, which was published last week caused controversy.","The report which was published last week, caused controversy."],"a":0},{"q":"What is the tone?","p":"I suppose it was fine, if you like that sort of thing.","o":["enthusiastic","fearful","grateful","dismissive"],"a":3},{"q":"What does 'pragmatic' mean?","p":null,"o":["practical and realistic","careless","angry","dreamy and unrealistic"],"a":0},{"q":"What effect do short, sharp sentences often create in a tense scene?","p":null,"o":["a calm, relaxed mood","confusion about the plot","pace and tension","long descriptions"],"a":2},{"q":"Which headline is the most biased?","p":null,"o":["Company announces new pay structure","Staff to receive pay review in March","Pay talks continue at firm","Greedy bosses crush hardworking staff again"],"a":3}],"11":[{"q":"The scientist's findings were ___, as other labs could not reproduce them.","p":null,"o":["unanimous","ordinary","conclusive","dubious"],"a":3},{"q":"The experiment succeeded. ___, the team will publish the results next month.","p":null,"o":["However","Meanwhile","Therefore","Nevertheless"],"a":2},{"q":"The collection of rare books ___ valuable.","p":null,"o":["have been","are","is","were"],"a":2},{"q":"Which sentence is the clearest?","p":null,"o":["When Ada met Bola, she gave her it.","When she met her, Ada gave the book.","Ada met Bola and she gave her it when they did.","Ada gave Bola the book when they met."],"a":3},{"q":"Which sentence is the most concise?","p":null,"o":["It is my personal belief that I think the plan is flawed.","I think the plan is flawed.","I think, in my opinion, that the plan is flawed.","In my own opinion, I personally think the plan is flawed."],"a":1},{"q":"What does the sentence suggest?","p":"Although critics dismissed the novel as sentimental, readers embraced it, and it stayed in print for decades.","o":["The novel was popular despite poor reviews.","Readers agreed with the critics.","The novel was quickly forgotten.","Critics and readers loved it equally."],"a":0},{"q":"Which sentence is punctuated correctly?","p":null,"o":["The test was hard however most students passed.","The test, was hard; most, students passed.","The test was hard; however, most students passed.","The test was hard, most students passed."],"a":2},{"q":"What does 'mitigate' mean?","p":null,"o":["to ignore","to repeat","to make worse","to make less severe"],"a":3},{"q":"Which sentence avoids a dangling modifier?","p":null,"o":["Walking to school, the rain felt cold on the bus.","Walking to school, I felt the rain start.","The rain started, walking to school.","Walking to school, the rain started."],"a":1},{"q":"Claim: urban gardens improve wellbeing. Which evidence best supports it?","p":null,"o":["My cousin likes gardening.","Cities contain many buildings.","Gardens are usually green.","A survey found residents near gardens reported 20% lower stress."],"a":3}],"12":[{"q":"What does 'obfuscate' mean?","p":null,"o":["to clarify","to discover","to make unclear","to celebrate"],"a":2},{"q":"Which technique is used?","p":"The glittering mansion stood beside the crumbling shacks.","o":["onomatopoeia","juxtaposition","euphemism","apostrophe"],"a":1},{"q":"She was, without question, the most ___ negotiator in the room, never conceding a single point.","p":null,"o":["timid","lenient","tenacious","careless"],"a":2},{"q":"Which sentence uses 'affect' and 'effect' correctly?","p":null,"o":["The policy will affect everyone, and its affect will last.","The policy will affect everyone, and its effect will last.","The policy will effect everyone, and its affect will last.","The policy will effect everyone, and its effect will last."],"a":1},{"q":"An essay argues that homework should be banned. Which is a counterargument?","p":null,"o":["Many students feel stressed by homework.","Homework often takes hours each night.","Homework should be replaced by projects.","Homework reinforces learning and builds study habits."],"a":3},{"q":"A speaker cites a doctor's 20 years of experience to build trust. Which appeal is this?","p":null,"o":["pathos","kairos","logos","ethos"],"a":3},{"q":"What does 'equivocal' mean?","p":"The senator's reply was, at best, equivocal.","o":["angry","ambiguous and non-committal","enthusiastic","clear and direct"],"a":1},{"q":"Which sentence is in the most formal register?","p":null,"o":["The committee decided to delay stuff.","The committee's put off the vote.","The committee called it off, basically.","The committee has resolved to postpone the vote."],"a":3},{"q":"Which sentence is punctuated correctly?","p":null,"o":["Lagos which, is Nigeria's largest city never sleeps.","Lagos, which is Nigeria's largest city, never sleeps.","Lagos which is Nigeria's largest city, never sleeps.","Lagos, which is Nigeria's largest city never sleeps."],"a":1},{"q":"Which sentence is periodic, saving its main idea until the end?","p":null,"o":["She struggled for years, but finally succeeded.","After years of struggle, countless setbacks and quiet doubt, she finally succeeded.","She finally succeeded after years of struggle.","She succeeded, finally, after years of struggle."],"a":1}]}};
+
+const LEVELS = [3,4,5,6,7,8,9,10,11,12];
+const lvlName = n => n === 12 ? "Year 12" : "Grade " + n;
+const SUBJ = { maths: "Maths", english: "English" };
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;" }[c]));
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* ---------- static bits ---------- */
+(function init(){
+  const nm = CENTRE.name;
+  const brand = $("#brandLink");
+  const parts = nm.split(" ");
+  brand.innerHTML = esc(parts[0]) + (parts.length > 1 ? " <b>" + esc(parts.slice(1).join(" ")) + "</b>" : "");
+  $("#footName").textContent = "© " + new Date().getFullYear() + " " + nm;
+
+  $("#ladder").innerHTML = LEVELS.map((n, i) =>
+    '<div class="step"><i style="height:' + (22 + i * 11) + 'px"></i><span>' + (n === 12 ? "Y12" : n) + '</span></div>').join("");
+
+  const tracks = [
+    ["Primary Checkpoint", "Grade 5 to 6", 3, 4],
+    ["Lower Secondary Checkpoint", "Grade 8 to 9", 6, 7],
+    ["IGCSE", "Grade 10 to 11", 8, 9],
+    ["SAT", "Grade 11 to Year 12", 9, 10]
+  ];
+  $("#tracks").innerHTML = tracks.map(t =>
+    '<div class="track"><div class="tl">' + t[0] + ' <small>· typically ' + t[1] + '</small></div>' +
+    '<div class="tb" style="grid-column:' + t[2] + ' / ' + (t[3] + 1) + '"></div></div>').join("");
+
+  const sel = $("#eGrade");
+  sel.innerHTML = '<option value="">Not sure yet</option>' + LEVELS.map(n => '<option value="' + n + '">' + lvlName(n) + '</option>').join("");
+  const subs = ["Maths","English","Sciences","Other school subjects","SAT preparation","Checkpoint preparation","IGCSE preparation"];
+  $("#eSubjects").innerHTML = subs.map((s, i) =>
+    '<label class="chip"><input type="checkbox" id="eS' + i + '" value="' + esc(s) + '"><span>' + esc(s) + '</span></label>').join("");
+
+  const lines = [];
+  if (CENTRE.email) lines.push('Email: <b>' + esc(CENTRE.email) + '</b> <button class="btn" type="button" id="copyEmail" style="padding:4px 10px;font-size:.85rem">Copy address</button>');
+  if (CENTRE.whatsapp) lines.push("WhatsApp: " + esc(CENTRE.whatsapp));
+  $("#contactLines").innerHTML = lines.map(l => "<span>" + l + "</span>").join("");
+  if (CENTRE.whatsapp) $("#waBtn").hidden = false;
+})();
+
+/* ---------- placement test ---------- */
+let st = { phase: "setup", subject: "maths", level: 5, name: "", phone: "", idx: 0, qs: [], ans: [], warn: false, result: null };
+
+function copyText(text, statusEl, fallbackEl){
+  const fb = () => { if (fallbackEl) { fallbackEl.focus(); fallbackEl.select(); } statusEl.textContent = "Select the text and copy it."; };
+  try {
+    navigator.clipboard.writeText(text).then(() => { statusEl.textContent = "Copied. Paste it into an email or WhatsApp message."; }, fb);
+  } catch (e) { fb(); }
+}
+
+function history(){
+  try { return JSON.parse(localStorage.getItem("bp_results") || "[]"); } catch (e) { return []; }
+}
+function saveResult(r){
+  try {
+    const h = history(); h.unshift(r);
+    localStorage.setItem("bp_results", JSON.stringify(h.slice(0, 6)));
+  } catch (e) {}
+}
+
+function setupView(){
+  const h = history();
+  return '' +
+  '<h3>Start a placement test</h3>' +
+  '<div class="field"><label class="lab" for="stName">Your name (optional)</label>' +
+  '<input type="text" id="stName" value="' + esc(st.name) + '" autocomplete="off"></div>' +
+  '<fieldset class="field"><legend>Subject</legend><div class="seg">' +
+  Object.keys(SUBJ).map(k => '<label class="chip"><input type="radio" name="subject" value="' + k + '"' + (st.subject === k ? " checked" : "") + '><span>' + SUBJ[k] + '</span></label>').join("") +
+  '</div></fieldset>' +
+  '<fieldset class="field"><legend>Level</legend><div class="levels">' +
+  LEVELS.map(n => '<label class="chip"><input type="radio" name="level" value="' + n + '"' + (st.level === n ? " checked" : "") + '><span>' + lvlName(n) + '</span></label>').join("") +
+  '</div></fieldset>' +
+  '<p class="meta">10 multiple-choice questions · no timer · your result appears as soon as you finish.</p>' +
+  '<div class="actions"><button class="btn pen" type="button" data-act="start">Start the ' + SUBJ[st.subject] + ' test for ' + lvlName(st.level) + '</button></div>' +
+  (h.length ? '<div class="history"><h4>Results on this device</h4><ul>' +
+    h.map(r => '<li><span>' + esc(r.subject) + ' · ' + esc(r.level) + '</span><span><b>' + r.score + '/10</b> · ' + esc(r.date) + '</span></li>').join("") +
+    '</ul></div>' : '');
+}
+
+function quizView(){
+  const q = st.qs[st.idx], n = st.qs.length, last = st.idx === n - 1;
+  const unanswered = st.ans.map((a, i) => a === null ? i : -1).filter(i => i >= 0);
+  return '' +
+  '<div class="qhead"><span>' + SUBJ[st.subject] + ' · ' + lvlName(st.level) + '</span><span>Question ' + (st.idx + 1) + ' of ' + n + '</span></div>' +
+  '<ol class="dots" aria-label="Jump to a question">' +
+  st.qs.map((_, i) => '<li><button type="button" data-act="goto" data-i="' + i + '"' + (i === st.idx ? ' aria-current="step"' : '') + (st.ans[i] !== null ? ' class="done"' : '') +
+    ' aria-label="Question ' + (i + 1) + (st.ans[i] !== null ? ', answered' : '') + '">' + (i + 1) + '</button></li>').join("") +
+  '</ol>' +
+  '<fieldset class="qbox"><legend class="qtext" id="qfocus" tabindex="-1">' +
+  (q.p ? '<span class="passage" style="display:block;font-size:1.05rem;font-weight:500;letter-spacing:0;line-height:1.5">' + esc(q.p) + '</span>' : '') +
+  esc(q.q) + '</legend>' +
+  '<div class="opts">' +
+  q.o.map((o, i) => '<label class="opt"><input type="radio" name="opt" value="' + i + '"' + (st.ans[st.idx] === i ? " checked" : "") + '><span class="mk">' + "ABCD"[i] + '</span><span class="tx">' + esc(o) + '</span></label>').join("") +
+  '</div></fieldset>' +
+  (st.warn && unanswered.length ? '<div class="warn" role="alert"><span>' + unanswered.length + (unanswered.length === 1 ? ' question is' : ' questions are') + ' still unanswered.</span>' +
+    '<button class="btn" type="button" data-act="goto" data-i="' + unanswered[0] + '">Go to question ' + (unanswered[0] + 1) + '</button>' +
+    '<button class="btn pen" type="button" data-act="submit">Submit anyway</button></div>' : '') +
+  '<div class="actions">' +
+  '<button class="btn" type="button" data-act="prev"' + (st.idx === 0 ? " disabled" : "") + '>Back</button>' +
+  (last ? '<button class="btn pen" type="button" data-act="finish">Finish and see my result</button>'
+        : '<button class="btn pen" type="button" data-act="next">Next question</button>') +
+  '</div>';
+}
+
+function band(score){
+  if (score >= 9) return ["Full marks territory", "Ready for the next level. Try the level above, or go deeper with exam-style practice."];
+  if (score >= 7) return ["Solid work", "A few gaps to close. Targeted lessons on the questions you missed would lift this quickly."];
+  if (score >= 4) return ["Getting there", "Some topics need proper attention. A short course at this level would build confidence before moving on."];
+  return ["A good place to start", "This level is a stretch right now. Starting one level lower, with a tutor beside you, will make the next step easier."];
+}
+function note(score){
+  return score === 10 ? "Perfect!" : score >= 9 ? "Excellent work!" : score >= 7 ? "Good effort!" : score >= 4 ? "Keep going!" : "Let's build up!";
+}
+
+function resultView(){
+  const r = st.result, [t, msg] = band(r.score);
+  const nextLvl = st.level < 12 && r.score >= 9 ? st.level + 1 : null;
+  return '' +
+  '<div class="qhead"><span>' + SUBJ[st.subject] + ' · ' + lvlName(st.level) + '</span><span>' + (st.name ? esc(st.name) : "Your result") + '</span></div>' +
+  '<div class="score-row"><div class="score" aria-label="Score ' + r.score + ' out of 10">' + r.score + '<small>/10</small></div>' +
+  '<div class="verdict"><h3>' + t + '. ' + note(r.score) + '</h3><p>' + esc(msg) + '</p></div></div>' +
+  '<div class="actions">' +
+  '<button class="btn pen" type="button" data-act="enquire">Ask about ' + lvlName(st.level) + ' ' + SUBJ[st.subject] + ' lessons</button>' +
+  (nextLvl ? '<button class="btn" type="button" data-act="nextlevel">Try ' + lvlName(nextLvl) + '</button>' : '') +
+  '<button class="btn" type="button" data-act="again">Take another test</button></div>' +
+  sendBox() +
+  '<ol class="review" aria-label="Question by question review">' +
+  st.qs.map((q, i) => {
+    const a = st.ans[i], ok = a === q.a;
+    return '<li><span class="res' + (ok ? " ok" : "") + '" aria-hidden="true">' + (ok ? "✓" : "✗") + '</span><div>' +
+      (q.p ? '<div class="rp">' + esc(q.p) + '</div>' : '') +
+      '<div class="rq"><span class="vh">' + (ok ? "Correct. " : "Incorrect. ") + '</span>' + (i + 1) + '. ' + esc(q.q) + '</div>' +
+      '<div class="ra">Your answer: <b>' + (a === null ? "no answer" : esc(q.o[a])) + '</b></div>' +
+      (ok ? "" : '<div class="ra">Correct answer: <b>' + esc(q.o[q.a]) + '</b></div>') + '</div></li>';
+  }).join("") + '</ol>';
+}
+
+function sendBox(){
+  return '<div class="sendbox"><h4>Send this result to ' + esc(CENTRE.name) + '</h4>' +
+  '<p class="meta" style="margin-top:6px">Add your name and a contact number so the centre can reach you. Then open the message in your email app, or copy it.</p>' +
+  '<div class="two"><div class="field"><label class="lab" for="stName2">Student name</label><input type="text" id="stName2" value="' + esc(st.name) + '" autocomplete="off"></div>' +
+  '<div class="field"><label class="lab" for="stPhone">Contact number</label><input type="tel" id="stPhone" inputmode="tel" value="' + esc(st.phone) + '" autocomplete="off"></div></div>' +
+  '<div class="field"><label class="lab" for="repMsg">Message to send</label><textarea id="repMsg" readonly></textarea></div>' +
+  '<div class="actions"><a class="btn pen" id="repMail" href="#">Open in my email app</a><button class="btn" type="button" data-act="copyrep">Copy message</button></div>' +
+  '<p class="meta">Send it to <b>' + esc(CENTRE.email) + '</b>. If your email app does not open, copy the message and paste it into a new email.</p>' +
+  '<p class="status" id="repStatus" role="status"></p></div>';
+}
+function reportText(){
+  const r = st.result;
+  let m = "Placement test result\n\n" +
+    "Student: " + (st.name || "(name not given)") + "\n" +
+    "Contact number: " + (st.phone || "(not given)") + "\n" +
+    "Subject: " + r.subject + "\n" +
+    "Level: " + r.level + "\n" +
+    "Score: " + r.score + "/10\n" +
+    "Date: " + r.full + "\n";
+  const missed = st.qs.map((q, i) => ({ q, i })).filter(x => st.ans[x.i] !== x.q.a);
+  if (missed.length) {
+    m += "\nQuestions missed:\n" + missed.map(x =>
+      (x.i + 1) + ". " + x.q.q + "\n   Answered: " + (st.ans[x.i] === null ? "no answer" : x.q.o[st.ans[x.i]]) + " | Correct: " + x.q.o[x.q.a]).join("\n") + "\n";
+  } else {
+    m += "\nAll 10 questions answered correctly.\n";
+  }
+  return m;
+}
+function refreshReport(){
+  const ta = $("#repMsg"), a = $("#repMail");
+  if (!ta || !a || !st.result) return;
+  const body = reportText();
+  ta.value = body;
+  a.href = "mailto:" + CENTRE.email + "?subject=" + encodeURIComponent("Placement test result: " + (st.name || "student") + ", " + st.result.subject + " " + st.result.level) + "&body=" + encodeURIComponent(body);
+}
+
+function render(focus){
+  const root = $("#testRoot");
+  root.innerHTML = st.phase === "setup" ? setupView() : st.phase === "quiz" ? quizView() : resultView();
+  if (st.phase === "result") refreshReport();
+  if (focus === "q") { const f = $("#qfocus"); if (f) f.focus({ preventScroll: true }); }
+  if (focus === "radio") { const c = root.querySelector("input[name=opt]:checked"); if (c) c.focus({ preventScroll: true }); }
+  if (focus === "res") { const f = root.querySelector(".score"); if (f) { f.setAttribute("tabindex", "-1"); f.focus({ preventScroll: true }); } }
+}
+function toTop(){ $("#test").scrollIntoView({ block: "start", behavior: reduce ? "auto" : "smooth" }); }
+
+function begin(){
+  st.qs = BANK[st.subject][String(st.level)];
+  st.ans = st.qs.map(() => null); st.idx = 0; st.warn = false; st.phase = "quiz"; st.result = null;
+  render("q"); toTop();
+}
+function submit(){
+  const score = st.qs.reduce((n, q, i) => n + (st.ans[i] === q.a ? 1 : 0), 0);
+  st.result = { score, subject: SUBJ[st.subject], level: lvlName(st.level), date: new Date().toLocaleDateString(undefined, { day: "numeric", month: "short" }), full: new Date().toLocaleDateString(undefined, { day: "numeric", month: "long", year: "numeric" }) };
+  saveResult(st.result);
+  st.phase = "result"; st.warn = false;
+  render("res"); toTop();
+  prefill();
+}
+
+const testRoot = $("#testRoot");
+testRoot.addEventListener("click", e => {
+  const b = e.target.closest("[data-act]"); if (!b) return;
+  const act = b.dataset.act;
+  if (act === "start") begin();
+  else if (act === "next") { st.idx = Math.min(st.idx + 1, st.qs.length - 1); render("q"); }
+  else if (act === "prev") { st.idx = Math.max(st.idx - 1, 0); render("q"); }
+  else if (act === "goto") { st.idx = +b.dataset.i; render("q"); }
+  else if (act === "finish") {
+    if (st.ans.some(a => a === null)) { st.warn = true; render(); } else submit();
+  }
+  else if (act === "submit") submit();
+  else if (act === "copyrep") copyText($("#repMsg").value, $("#repStatus"), $("#repMsg"));
+  else if (act === "again") { st.phase = "setup"; render(); toTop(); }
+  else if (act === "nextlevel") { st.level = Math.min(st.level + 1, 12); begin(); }
+  else if (act === "enquire") {
+    $("#enquire").scrollIntoView({ block: "start", behavior: reduce ? "auto" : "smooth" });
+  }
+});
+testRoot.addEventListener("change", e => {
+  const t = e.target;
+  if (t.name === "subject") { st.subject = t.value; render(); const c = testRoot.querySelector("input[name=subject]:checked"); if (c) c.focus({ preventScroll: true }); }
+  else if (t.name === "level") { st.level = +t.value; render(); const c = testRoot.querySelector("input[name=level]:checked"); if (c) c.focus({ preventScroll: true }); }
+  else if (t.name === "opt") {
+    st.ans[st.idx] = +t.value; st.warn = false; render("radio");
+  }
+});
+testRoot.addEventListener("input", e => {
+  const id = e.target.id;
+  if (id === "stName") st.name = e.target.value;
+  else if (id === "stName2") { st.name = e.target.value; refreshReport(); }
+  else if (id === "stPhone") { st.phone = e.target.value; refreshReport(); }
+});
+
+/* ---------- enquiry ---------- */
+const eName = $("#eName"), ePhone = $("#ePhone"), eGrade = $("#eGrade"), eMode = $("#eMode"), eMsg = $("#eMsg");
+let msgEdited = false;
+function chosenSubjects(){ return [...document.querySelectorAll("#eSubjects input:checked")].map(i => i.value); }
+function compose(){
+  const who = eName.value.trim(), g = eGrade.value ? lvlName(+eGrade.value) : "a grade or year we still need to confirm";
+  const subs = chosenSubjects();
+  let m = "Hello " + CENTRE.name + ",\n\nI would like to ask about lessons" + (who ? " for " + who : "") + " in " + g + ".\n";
+  m += "Contact number: " + (ePhone.value.trim() || "(not given)") + "\n";
+  m += subs.length ? "Subjects: " + subs.join(", ") + ".\n" : "";
+  m += "Preferred format: " + eMode.value + ".\n";
+  if (st.result) m += "\nPlacement test result: " + st.result.subject + ", " + st.result.level + ", " + st.result.score + "/10.\n";
+  m += "\nPlease let me know the next steps and available times. Thank you.";
+  return m;
+}
+function refreshMsg(){ if (!msgEdited) eMsg.value = compose(); updateWa(); }
+function updateWa(){
+  const who = eName.value.trim();
+  $("#mailBtn").href = "mailto:" + CENTRE.email + "?subject=" + encodeURIComponent("Lesson enquiry" + (who ? " for " + who : "")) + "&body=" + encodeURIComponent(eMsg.value);
+  if (!CENTRE.whatsapp) return;
+  $("#waBtn").href = "https://wa.me/" + CENTRE.whatsapp.replace(/\D/g, "") + "?text=" + encodeURIComponent(eMsg.value);
+}
+function prefill(){
+  if (!st.result) return;
+  if (st.name && !eName.value) eName.value = st.name;
+  if (st.phone && !ePhone.value) ePhone.value = st.phone;
+  eGrade.value = String(st.level);
+  const want = SUBJ[st.subject];
+  document.querySelectorAll("#eSubjects input").forEach(i => { if (i.value === want) i.checked = true; });
+  msgEdited = false; refreshMsg();
+}
+$("#enqForm").addEventListener("input", e => { if (e.target === eMsg) { msgEdited = true; updateWa(); } else refreshMsg(); });
+$("#enqForm").addEventListener("change", refreshMsg);
+$("#enqForm").addEventListener("submit", e => e.preventDefault());
+$("#copyBtn").addEventListener("click", () => copyText(eMsg.value, $("#copyStatus"), eMsg));
+const copyEmailBtn = $("#copyEmail");
+if (copyEmailBtn) copyEmailBtn.addEventListener("click", () => copyText(CENTRE.email, $("#copyStatus"), null));
+
+/* ---------- zoom classes ---------- */
+(function(){
+  const Z = {};
+  ["Title","Subject","Level","Date","Time","Dur","Link","Msg"].forEach(k => Z[k] = $("#z" + k));
+  const status = $("#zStatus");
+  Z.Subject.innerHTML = ["Maths","English","Sciences","Other school subjects","SAT preparation","Checkpoint preparation","IGCSE preparation"].map(s => "<option>" + esc(s) + "</option>").join("");
+  Z.Level.innerHTML = LEVELS.map(n => '<option value="' + n + '">' + lvlName(n) + "</option>").join("");
+  Z.Dur.innerHTML = [30,45,60,90,120].map(m => '<option value="' + m + '"' + (m === 60 ? " selected" : "") + ">" + m + " minutes</option>").join("");
+  Z.Level.value = "5";
+  let edited = false;
+
+  const start = () => (Z.Date.value && Z.Time.value) ? new Date(Z.Date.value + "T" + Z.Time.value) : null;
+  const pad = n => String(n).padStart(2, "0");
+  const stamp = d => d.getFullYear() + pad(d.getMonth()+1) + pad(d.getDate()) + "T" + pad(d.getHours()) + pad(d.getMinutes()) + "00";
+  const title = () => Z.Title.value.trim() || (Z.Subject.value + " class, " + lvlName(+Z.Level.value));
+  const pretty = d => d ? d.toLocaleString(undefined, { weekday:"long", day:"numeric", month:"long", hour:"numeric", minute:"2-digit" }) : "(date and time to be confirmed)";
+
+  function compose(){
+    return "Hello,\n\nYou are invited to a " + CENTRE.name + " class on Zoom.\n\n" +
+      "Class: " + title() + "\nWhen: " + pretty(start()) + "\nLength: " + Z.Dur.value + " minutes\n" +
+      "Join Zoom meeting: " + (Z.Link.value.trim() || "(link to follow)") + "\n\n" +
+      "Please join a few minutes early and have a pen and paper ready.\n\nSee you in class,\n" + CENTRE.name;
+  }
+  function refresh(){
+    if (!edited) Z.Msg.value = compose();
+    const m = Z.Msg.value, s = start();
+    $("#zMail").href = "mailto:?subject=" + encodeURIComponent("Zoom class: " + title()) + "&body=" + encodeURIComponent(m);
+    $("#zWa").href = "https://wa.me/?text=" + encodeURIComponent(m);
+    let cal = "https://calendar.google.com/calendar/render?action=TEMPLATE&text=" + encodeURIComponent(title()) +
+      "&details=" + encodeURIComponent(m) + "&location=" + encodeURIComponent(Z.Link.value.trim());
+    if (s) cal += "&dates=" + stamp(s) + "/" + stamp(new Date(s.getTime() + (+Z.Dur.value) * 60000));
+    $("#zCal").href = cal;
+  }
+  const load = () => { try { return JSON.parse(localStorage.getItem("bp_classes") || "[]"); } catch (e) { return []; } };
+  const store = a => { try { localStorage.setItem("bp_classes", JSON.stringify(a)); } catch (e) {} };
+  function list(){
+    const a = load().sort((x, y) => x.t - y.t);
+    $("#zList").innerHTML = a.length ? a.map((c, i) =>
+      '<li><div><div class="zt">' + esc(c.title) + '</div><div class="zw">' + esc(c.when) + ' · ' + esc(c.dur) + ' min</div></div>' +
+      '<div class="za">' + (c.link ? '<a class="btn pen" href="' + esc(c.link) + '" target="_blank" rel="noopener">Join</a>' : "") +
+      '<button class="btn" type="button" data-copy="' + i + '">Copy invite</button>' +
+      '<button class="btn" type="button" data-del="' + i + '">Remove</button></div></li>').join("")
+      : '<li><span class="zw">No saved classes yet.</span></li>';
+  }
+  $("#zoom").addEventListener("input", e => {
+    if (e.target === Z.Msg) edited = true; else refresh();
+    if (e.target === Z.Msg) refresh();
+  });
+  $("#zoom").addEventListener("change", refresh);
+  $("#zCopy").addEventListener("click", () => copyText(Z.Msg.value, status, Z.Msg));
+  $("#zSave").addEventListener("click", () => {
+    const s = start(), link = Z.Link.value.trim();
+    if (!s) { status.textContent = "Choose a date and start time first."; return; }
+    if (!/^https:\/\/([\w-]+\.)?zoom\.(us|com)\//i.test(link)) { status.textContent = "Paste a valid Zoom link (it starts with https://zoom.us/)."; return; }
+    const a = load();
+    a.push({ title: title(), when: pretty(s), dur: Z.Dur.value, link, msg: Z.Msg.value, t: s.getTime() });
+    store(a); list(); status.textContent = "Class saved.";
+  });
+  $("#zList").addEventListener("click", e => {
+    const a = load().sort((x, y) => x.t - y.t);
+    if (e.target.dataset.del !== undefined) { a.splice(+e.target.dataset.del, 1); store(a); list(); }
+    else if (e.target.dataset.copy !== undefined) copyText(a[+e.target.dataset.copy].msg, status, null);
+  });
+  refresh(); list();
+})();
+
+render();
+refreshMsg();
+</script>
+</body>
+</html>
